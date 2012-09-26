@@ -1,4 +1,5 @@
-myCal
-=====
+My Calendar project
+===============
 
-Implentation of UNIX cal in Ruby
+This is the exercise for week 3 day 1.
+
