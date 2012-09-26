@@ -8,6 +8,11 @@ class Calendar
     @year = year
   end
 
+#year/4 == 0 leap year
+#year/100 == 0 centurial/no leap
+#year/400 == 0 leap year
+
+
 #Get argv working
 #get start spacing working
 #get new week starting after Saturday
@@ -17,7 +22,7 @@ class Calendar
 
 #get number of days in a month tabled out
 
-month_length = {:march => 31, :april => 30, :may => 31, :june => 30, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
+  month_length = {:march => 31, :april => 30, :may => 31, :june => 30, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
 
 
 def week_start(new_year, new_month)
@@ -37,6 +42,20 @@ end
 #then I can start wrapping days after that. 
 
 #first get the string needed that will output the Calendar
+#if year/4 == 0 || year/400 == 0 then feb has 29 days
+
+  #determine if Feb has 28 or 29 days
+  def feb?(year)
+    if year.to_f/4 == 0 || year.to_f/400 == 0
+      29
+      else
+      28
+    end
+  end
+  
+  #figure a way to pad the spaces for where '1' starts
+
+  #get the delimiters working with "  "
 
 
 #then parse that string out so that on every seventh one, the delimiter changes from "  " to /n

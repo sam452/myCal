@@ -1,5 +1,5 @@
 require 'test/unit'
-require '/Users/sam/Desktop/projex/nss/Bio_workfile/week_start'
+require 'cal.rb'
 
 class CalTest < Test::Unit::TestCase
 
@@ -30,7 +30,22 @@ class CalTest < Test::Unit::TestCase
   def test_07_Mar_01_1889
     assert_equal(6, week_start(1889, "march"))
   end
+  
+  def test_08_2013_should_return_28
+    assert_equal(28, feb?(2013))
+  end
 
+  def test_09_2012_should_return_29
+    assert_equal(29, feb?(2012))
+  end
+
+  def test_10_1900_should_return_28
+    assert_equal(28, feb?(1900))
+  end
+
+  def test_11_2000_should_return_29
+    assert_equal(29, feb?(2000))
+  end
 
 
 
