@@ -24,9 +24,8 @@ class Month
 
   MONTH_LENGTH = {:march => 31, :april => 30, :may => 31, :june => 30, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
   COLUMN_SEPARATOR = " "
-  ITERATOR = [100, 80, 60, 40, 20]
-  ITERATOR2 = [7, 14, 21, 28, 31]
-  WEEK_TOTAL = 5
+  ITERATOR2 = [7, 14, 21, 28, 35, 37]  
+  DOW = "Su Mo Tu We Th Fr Sa"
   
   def week_start(new_year, new_month)
       months = %w[march april may june july august september october november december january february]
@@ -95,47 +94,35 @@ class Month
     i = 1
     j = 0
     h = 0
+    month_array.size > 35 ? week_Total = 6 : week_Total = 5
     weeks = []
-    while h < WEEK_TOTAL
+    while h < week_Total
        iterative_string = ""
-       while j < ITERATOR2[h].to_i and <= (month_array.length + week_start(@year, @month))
-            iterative_string << (i < ITERATOR2[h].to_i ? month_array[j] + " " : month_array[j])
+       while j < ITERATOR2[h].to_i 
+            iterative_string << (i < ITERATOR2[h].to_i ? month_array[j].to_s + (month_array[j+1] ? " " : "") : month_array[j].to_s)
             j += 1
             i += 1
          end #while j
          h += 1
          weeks << iterative_string
     end #h loop
-    #iterative_string = month_array.to_s.gsub(/", "/, " ").gsub(/\[\"/, "").gsub(/\"\]/, "")
     weeks #a = weeks.each { |u| iterative_string << u}
   end #def
   
-  def break_out
-    c = Month.new(@month, &year)
-    #c.add_columns.length > 100 ? a = c.add_columns.insert(100, "/n") : a = c.add_columns.insert(80, "/n")
-    if c.add_columns.length > 80
-      i = 0
-      a = loop do
-        i += 1
-        c.add_columns.insert(ITERATOR[i], "/n")
-        break if i == 4
-      end  
-        else
-            i = 1
-            a = loop do            
-            i += 1
-            c.add_columns.insert(ITERATOR[i], "/n")
-            break if i == 4
-          end
-    end #if
-    a = loop
-    print a
-  end #def
-
-
-def space_single(i)
+  def space_single(i)
     i.to_i < 10 ? " #{i}" : "#{i}"
-end
+  end
+
+  def printout
+    c = Month.new(@month, @year)
+    month = c.add_columns
+    my_month = ""
+    my_month = (@month.to_s + " " + @year.to_s).capitalize.center(20) + "\n"
+    my_month << DOW + "\n"
+    #my_month << month.each { |week| print week.to_s, "\n"}
+    my_month << month.join("\n")
+    
+  end
 
 
 end

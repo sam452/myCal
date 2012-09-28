@@ -94,11 +94,15 @@ class MonthTest < Test::Unit::TestCase
 
   def test_18_feb_2000_iterative_into_string
     m = Month.new("february", 2000)
-    assert_equal("       1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29", m.add_columns)
+    assert_equal(["       1  2  3  4  5",
+ " 6  7  8  9 10 11 12",
+ "13 14 15 16 17 18 19",
+ "20 21 22 23 24 25 26",
+ "27 28 29"], m.add_columns)
   end
 
   def test_17_mar_1889_iterative_into_string
-    m = Month.new("mar", 1889)
+    m = Month.new("march", 1889)
     assert_equal(["                1  2",
  " 3  4  5  6  7  8  9",
  "10 11 12 13 14 15 16",
@@ -107,6 +111,46 @@ class MonthTest < Test::Unit::TestCase
  "31"], m.add_columns)
   end
 
+  def test_19_mar_1889_iterative_into_string
+    m = Month.new("september", 1888)
+    assert_equal(["                   1",
+ " 2  3  4  5  6  7  8",
+ " 9 10 11 12 13 14 15",
+ "16 17 18 19 20 21 22",
+ "23 24 25 26 27 28 29",
+ "30"], m.add_columns)
+  end
+
+  def test_20_jan_1998_iterative_into_string
+    m = Month.new("january", 1998)
+    assert_equal(["             1  2  3",
+ " 4  5  6  7  8  9 10",
+ "11 12 13 14 15 16 17",
+ "18 19 20 21 22 23 24",
+ "25 26 27 28 29 30 31"], m.add_columns)
+  end
+
+  def test_21_jan_1998_array_into_big_string
+    m = Month.new("january", 1998)
+    assert_equal("""    January 1998    
+Su Mo Tu We Th Fr Sa
+             1  2  3
+ 4  5  6  7  8  9 10
+11 12 13 14 15 16 17
+18 19 20 21 22 23 24
+25 26 27 28 29 30 31""", m.printout)
+  end
+
+  def test_22_jfeb_1999_array_into_big_string
+    m = Month.new("february", 1999)
+    assert_equal("""   February 1999    
+Su Mo Tu We Th Fr Sa
+    1  2  3  4  5  6
+ 7  8  9 10 11 12 13
+14 15 16 17 18 19 20
+21 22 23 24 25 26 27
+28""", m.printout)
+  end
 
 
 end
