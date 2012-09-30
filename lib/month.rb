@@ -120,7 +120,7 @@ class Month
   end
   
   def zeller_offset(input)
-    input < 3 ? input + 12 : input
+    input.to_i < 3 ? input.to_i + 12 : input
   end
 
   def printout
