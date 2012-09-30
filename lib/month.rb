@@ -36,7 +36,9 @@ class Month
       march_offset = ((month + 1)* 26/10).floor
       leap_year_offset = (year/4).floor + ((year/100).floor)*6 + (year/400).floor
       day_of_week = (day_of_month + march_offset + year + leap_year_offset) %7
-  
+      raise if months.include?(new_month) == false
+        print "You must spell the month corectly"
+      
     return day_of_week
   end
 

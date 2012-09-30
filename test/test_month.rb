@@ -152,5 +152,11 @@ Su Mo Tu We Th Fr Sa
 28""", m.printout)
   end
 
+  def test_25_jan_01_1998_with_misspelling
+    m = Month.new("januaxy", 1998)
+    assert_equal(5, m.week_start(m.year, m.month))
+  end
+
+
 
 end
