@@ -22,22 +22,26 @@ class Month
 
 #get number of days in a month tabled out
 
+  MONTH_INDEX = %w[x y z march april may june july august september october november december january february]
+ # MONTH_INDEX = [13, 14, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   MONTH_LENGTH = {:march => 31, :april => 30, :may => 31, :june => 30, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
+  #MONTH_LENGTH = {:3 => 31, :april => 30, :may => 31, :june => 30, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
   COLUMN_SEPARATOR = " "
   ITERATOR2 = [7, 14, 21, 28, 35, 37]  
   DOW = "Su Mo Tu We Th Fr Sa"
+  FEB = 2
   
   def week_start(new_year, new_month)
       months = %w[march april may june july august september october november december january february]
       weekdays = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
       day_of_month = 1 #day
-      month = months.index(new_month.downcase) + 3
+      month = zeller_offset(new_month) #MONTH_INDEX.index(new_month) + 3 #months.index(new_month.downcase) + 3
       year =  month > 12 ? new_year -1 : new_year
       march_offset = ((month + 1)* 26/10).floor
       leap_year_offset = (year/4).floor + ((year/100).floor)*6 + (year/400).floor
       day_of_week = (day_of_month + march_offset + year + leap_year_offset) %7
-      raise if months.include?(new_month) == false
-        print "You must spell the month corectly"
+      #raise if months.include?(new_month) == false
+     #   print "You must spell the month corectly"
       
     return day_of_week
   end
@@ -75,12 +79,12 @@ class Month
       month_string << "  "
     end
     
-    if @month == "february"
+    if @month == FEB
       (1 .. c.feb?(@year)).each do |i|
       month_string << space_single(i)
       end
       else
-        (1 .. MONTH_LENGTH[@month.to_sym]).each do |i|
+        (1 .. MONTH_LENGTH[(MONTH_INDEX[zeller_offset(@month)]).to_sym]).each do |i|
         month_string << space_single(i)
         end
     end
@@ -114,12 +118,16 @@ class Month
   def space_single(i)
     i.to_i < 10 ? " #{i}" : "#{i}"
   end
+  
+  def zeller_offset(input)
+    input < 3 ? input + 12 : input
+  end
 
   def printout
     c = Month.new(@month, @year)
     month = c.add_columns
     my_month = ""
-    my_month = (@month.to_s + " " + @year.to_s).capitalize.center(20) + "\n"
+    my_month = (MONTH_INDEX[zeller_offset(@month)].to_s + " " + @year.to_s).capitalize.center(20) + "\n"
     my_month << DOW + "\n"
     #my_month << month.each { |week| print week.to_s, "\n"}
     my_month << month.join("\n")
