@@ -4,9 +4,14 @@ require 'pp'
 
 class CalendarTest < Test::Unit::TestCase
 
+  def setup
+    @month = ARGV[0]
+    @year = ARGV[1]
+    puts @month
+  end
+  
   def test_23_ARGV
-    c = ::Calendar.new(May 1992)
-    puts "ARGV[0] = %s" % ARGV[0]
+    #c = Month.new("May" 1992)
     assert_equal("May", c.month)
     pp ARGV
   end
