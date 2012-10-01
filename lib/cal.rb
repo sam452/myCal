@@ -18,7 +18,7 @@ class Calendar
   
   my_month = ARGV[0].dup
   my_year = ARGV[1].dup
-  @month = my_month.downcase!
+  @month = my_month.to_i
   @year = my_year.to_i
   cal = Month.new(@month, @year)
   puts cal.printout
