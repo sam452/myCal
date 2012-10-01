@@ -23,9 +23,7 @@ class Month
 #get number of days in a month tabled out
 
   MONTH_INDEX = %w[x y z march april may june july august september october november december january february]
- # MONTH_INDEX = [13, 14, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   MONTH_LENGTH = {:march => 31, :april => 30, :may => 31, :june => 30, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
-  #MONTH_LENGTH = {:3 => 31, :april => 30, :may => 31, :june => 30, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
   COLUMN_SEPARATOR = " "
   ITERATOR2 = [7, 14, 21, 28, 35, 37]  
   DOW = "Su Mo Tu We Th Fr Sa"
