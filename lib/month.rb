@@ -24,8 +24,7 @@ class Month
 
   MONTH_INDEX = %w[x y z march april may june july august september october november december january february]
   MONTH_LENGTH = {:march => 31, :april => 30, :may => 31, :june => 30, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
-  COLUMN_SEPARATOR = " "
-  ITERATOR2 = [7, 14, 21, 28, 35, 37]  
+  COLUMN_COUNTER = [7, 14, 21, 28, 35, 37]  
   DOW = "Su Mo Tu We Th Fr Sa"
   FEB = 2
   
@@ -95,23 +94,34 @@ class Month
   def add_columns
     c = Month.new(@month, @year)
     month_array = c.run
-    i = 1
     j = 0
+    i = j+1
     h = 0
     month_array.size > 35 ? week_Total = 6 : week_Total = 5
     weeks = []
     while h < week_Total
        iterative_string = ""
-       while j < ITERATOR2[h].to_i 
-            iterative_string << (i < ITERATOR2[h].to_i ? month_array[j].to_s + (month_array[j+1] ? " " : "") : month_array[j].to_s)
-            j += 1
-            i += 1
-         end #while j
+       #while j < COLUMN_COUNTER[h].to_i 
+      #      iterative_string << (i < COLUMN_COUNTER[h].to_i ? month_array[j].to_s + (month_array[j+1] ? " " : "") : month_array[j].to_s)
+       #     j += 1
+       #     i += 1
+       #  end #while j
+       iterative_string << week_break(j, h, month_array)
+         j = COLUMN_COUNTER[h].to_i
          h += 1
          weeks << iterative_string
     end #h loop
-    weeks #a = weeks.each { |u| iterative_string << u}
+    weeks 
   end #def
+  
+  def week_break(j, h, month_array)
+    iterative_string = ""
+    j.upto(COLUMN_COUNTER[h].to_i - 1) do
+      iterative_string << (j + 1 < COLUMN_COUNTER[h].to_i ? month_array[j].to_s + (month_array[j+1] ? " " : "") : month_array[j].to_s)
+      j += 1
+    end
+    iterative_string
+  end
   
   def space_single(i)
     i.to_i < 10 ? " #{i}" : "#{i}"
