@@ -1,5 +1,5 @@
 class Month
-  attr_reader :dow
+  attr_reader :DAY_OF_WEEK
   attr_reader :month
   attr_reader :year
 
@@ -22,17 +22,17 @@ class Month
 
 #get number of days in a month tabled out
 
-  MONTH_INDEX = %w[x y z march april may june july august september october november december january february]
+  MONTH_INDEX = %w[march april may june july august september october november december january february]
   MONTH_LENGTH = {:march => 31, :april => 30, :may => 31, :june => 30, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
-  COLUMN_COUNTER = [7, 14, 21, 28, 35, 37]  
-  DOW = "Su Mo Tu We Th Fr Sa"
+  COLUMN_SET = [7, 14, 21, 28, 35, 37]  
+  DAY_OF_WEEK = "Su Mo Tu We Th Fr Sa"
   FEB = 2
+  ZELLER_MONTH_OFFSET = 3
   
+  #this method is a representation of zeller's congruence, as referenced in Wikipedia
   def week_start(new_year, new_month)
-      months = %w[march april may june july august september october november december january february]
-      weekdays = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
       day_of_month = 1 #day
-      month = zeller_offset(new_month) #MONTH_INDEX.index(new_month) + 3 #months.index(new_month.downcase) + 3
+      month = zeller_offset(new_month) #MONTH_INDEX.index(new_month) + 3 #months.index(new_month.DAY_OF_WEEKncase) + 3
       year =  month > 12 ? new_year -1 : new_year
       march_offset = ((month + 1)* 26/10).floor
       leap_year_offset = (year/4).floor + ((year/100).floor)*6 + (year/400).floor
@@ -70,73 +70,66 @@ class Month
 
 #get an array out of a month
   def run
-    c = Month.new(@month, @year)
+    new_month = Month.new(@month, @year)
     month_string = []
-    c.padding.times do 
+    new_month.padding.times do 
       month_string << "  "
     end
     
     if @month == FEB
-      (1 .. c.feb?(@year)).each do |i|
+      (1 .. new_month.feb?(@year)).each do |i|
       month_string << space_single(i)
       end
       else
-        (1 .. MONTH_LENGTH[(MONTH_INDEX[zeller_offset(@month)]).to_sym]).each do |i|
+        (1 .. MONTH_LENGTH[(MONTH_INDEX[zeller_offset(@month)- ZELLER_MONTH_OFFSET]).to_sym]).each do |i|
         month_string << space_single(i)
         end
     end
     return month_string
   end
   
-  #get the delimiters working with "  "
-
 #then parse that string out so that on every seventh one, the delimiter changes from "  " to /n
   def add_columns
-    c = Month.new(@month, @year)
-    month_array = c.run
-    j = 0
-    i = j+1
-    h = 0
+    new_month = Month.new(@month, @year)
+    month_array = new_month.run
+    column_counter = 0
+    week_counter = 0
     month_array.size > 35 ? week_Total = 6 : week_Total = 5
     weeks = []
-    while h < week_Total
+    while week_counter < week_Total
        iterative_string = ""
-       #while j < COLUMN_COUNTER[h].to_i 
-      #      iterative_string << (i < COLUMN_COUNTER[h].to_i ? month_array[j].to_s + (month_array[j+1] ? " " : "") : month_array[j].to_s)
-       #     j += 1
-       #     i += 1
-       #  end #while j
-       iterative_string << week_break(j, h, month_array)
-         j = COLUMN_COUNTER[h].to_i
-         h += 1
+       iterative_string << week_break(column_counter, week_counter, month_array)
+         column_counter = COLUMN_SET[week_counter].to_i
+         week_counter += 1
          weeks << iterative_string
-    end #h loop
+    end #week_counter loop
     weeks 
   end #def
   
-  def week_break(j, h, month_array)
+  def week_break(column_counter, week_counter, month_array)
     iterative_string = ""
-    j.upto(COLUMN_COUNTER[h].to_i - 1) do
-      iterative_string << (j + 1 < COLUMN_COUNTER[h].to_i ? month_array[j].to_s + (month_array[j+1] ? " " : "") : month_array[j].to_s)
-      j += 1
+    column_counter.upto(COLUMN_SET[week_counter].to_i - 1) do
+      iterative_string << (column_counter + 1 < COLUMN_SET[week_counter].to_i ? month_array[column_counter].to_s + (month_array[column_counter+1] ? " " : "") : month_array[column_counter].to_s)
+      column_counter += 1
     end
     iterative_string
   end
   
-  def space_single(i)
-    i.to_i < 10 ? " #{i}" : "#{i}"
+  def space_single(date)
+    date.to_i < 10 ? " #{date}" : "#{date}"
   end
   
   def zeller_offset(input)
     input.to_i < 3 ? input.to_i + 12 : input
   end
 
+  #turn array of weeks into a string of month
   def printout
     c = Month.new(@month, @year)
     month = c.add_columns
     my_month = ""
-    my_month = (MONTH_INDEX[zeller_offset(@month)].to_s + " " + @year.to_s).capitalize.center(20) + "\n"
-    my_month << DOW + "\n"
+    my_month = (MONTH_INDEX[zeller_offset(@month)- ZELLER_MONTH_OFFSET].to_s + " " + @year.to_s).capitalize.center(20) + "\n"
+    my_month << DAY_OF_WEEK + "\n"
     #my_month << month.each { |week| print week.to_s, "\n"}
     my_month << month.join("\n")
     
