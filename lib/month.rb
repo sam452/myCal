@@ -8,22 +8,22 @@ class Month
     @year = year
   end
 
-#year/4 == 0 leap year
-#year/100 == 0 centurial/no leap
-#year/400 == 0 leap year
+  #year/4 == 0 leap year
+  #year/100 == 0 centurial/no leap
+  #year/400 == 0 leap year
 
 
-#Get argv working
-#get start spacing working
-#get new week starting after Saturday
+  #Get argv working
+  #get start spacing working
+  #get new week starting after Saturday
 
-#figure spacing for single digit
-#center month & year in title
+  #figure spacing for single digit
+  #center month & year in title
 
-#get number of days in a month tabled out
+  #get number of days in a month tabled out
 
   MONTH_INDEX = %w[march april may june july august september october november december january february]
-  MONTH_LENGTH = {:march => 31, :april => 30, :may => 31, :june => 30, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
+  MONTH_LENGTH = {:march => 31, :april => 30, :may => 31, :june => 30, :july => 31, :august => 31, :september => 30, :october => 31, :november => 30, :december => 31, :january => 31, :february => 28}
   COLUMN_SET = [7, 14, 21, 28, 35, 37]  
   DAY_OF_WEEK = "Su Mo Tu We Th Fr Sa"
   FEB = 2
@@ -43,11 +43,11 @@ class Month
     return day_of_week
   end
 
-#given a month and a year, I can get the column the one starts. 
-#then I can start wrapping days after that. 
+  #given a month and a year, I can get the column the one starts. 
+  #then I can start wrapping days after that. 
 
-#first get the string needed that will output the Calendar
-#if year/4 == 0 || year/400 == 0 then feb has 29 days
+  #first get the string needed that will output the Calendar
+  #if year/4 == 0 || year/400 == 0 then feb has 29 days
 
   #determine if Feb has 28 or 29 days
   def feb?(year)
@@ -68,7 +68,7 @@ class Month
     end
   end
 
-#get an array out of a month
+  #get an array out of a month
   def run
     new_month = Month.new(@month, @year)
     month_string = []
@@ -81,6 +81,10 @@ class Month
       month_string << space_single(i)
       end
       else
+        puts zeller_offset(@month)
+        puts ZELLER_MONTH_OFFSET
+        puts MONTH_INDEX[zeller_offset(@month) - ZELLER_MONTH_OFFSET]
+        puts MONTH_LENGTH[MONTH_INDEX[zeller_offset(@month) - ZELLER_MONTH_OFFSET].to_sym]
         (1 .. MONTH_LENGTH[(MONTH_INDEX[zeller_offset(@month)- ZELLER_MONTH_OFFSET]).to_sym]).each do |i|
         month_string << space_single(i)
         end
@@ -88,7 +92,7 @@ class Month
     return month_string
   end
   
-#then parse that string out so that on every seventh one, the delimiter changes from "  " to /n
+  #then parse that string out so that on every seventh one, the delimiter changes from "  " to /n
   def add_columns
     new_month = Month.new(@month, @year)
     month_array = new_month.run
