@@ -81,10 +81,6 @@ class Month
       month_string << space_single(i)
       end
       else
-        puts zeller_offset(@month)
-        puts ZELLER_MONTH_OFFSET
-        puts MONTH_INDEX[zeller_offset(@month) - ZELLER_MONTH_OFFSET]
-        puts MONTH_LENGTH[MONTH_INDEX[zeller_offset(@month) - ZELLER_MONTH_OFFSET].to_sym]
         (1 .. MONTH_LENGTH[(MONTH_INDEX[zeller_offset(@month)- ZELLER_MONTH_OFFSET]).to_sym]).each do |i|
         month_string << space_single(i)
         end
