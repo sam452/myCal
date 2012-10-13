@@ -10,7 +10,8 @@ class Calendar
   WEEK_SET = [7, 14, 21, 28, 35, 42]
   SECTION = 4
   WEEK_SLOTS = 6
-  
+  MONTH_INDEX = %w[January February March April May June July August September October November December]
+    
   def initialize(year)
     @year = year.to_i
   end
@@ -38,27 +39,16 @@ class Calendar
       week_counter = 0
       1.upto(6) do #drill down into weeks of section of months
         month_counter = section_counter * BREAK
-        #puts "section_ctr = #{section_counter}"
         1.upto(BREAK) do
+          calendar <<pad_week((arra[month_counter][week_counter] ? arra[month_counter][week_counter] : " "))
+          (month_counter + 1) % BREAK != 0 ? calendar << "  " : calendar << "\n"
           if (month_counter + 1) % BREAK != 0
-              puts "array[#{month_counter}][#{week_counter}]"
-              puts "#{arra[month_counter][week_counter].class}"
-             # puts "space"
-             calendar << pad_week((arra[month_counter][week_counter] ? arra[month_counter][week_counter] : " "))
-             calendar << "  "
-            else
-              #puts "array[#{month_counter}][#{week_counter}]"
-              #puts "return"
-              calendar << pad_week((arra[month_counter][week_counter] ? arra[month_counter][week_counter] : " "))
-              calendar << "\n"
           end #outer if %3
           month_counter +=1
         end # upto3 loop
         week_counter += 1
       end #upto 6 loop
       section_counter += 1
-      #month_counter += 1
-      #week_counter += 1
     end # upto break do loop
     puts calendar
   end #def
