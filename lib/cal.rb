@@ -8,6 +8,8 @@ class Calendar
   
   BREAK = 3
   WEEK_SET = [7, 14, 21, 28, 35, 42]
+  SECTION = 4
+  WEEK_SLOTS = 6
   
   def initialize(year)
     @year = year.to_i
@@ -29,33 +31,44 @@ class Calendar
   end
   
   def printout(arra)
-    month_counter = 0
-    week_counter = 0
-    row = ""
-    
-    1.upto(BREAK) do
-      1.upto(7) do
-        if (month_counter + 1) % BREAK != 0
-          row << pad_week(arra[week_counter])
-          else
-          row << @year
-        end
-      end
-    end
-  end
+    calendar = ""
+    section_counter = 0
+    section_counter + 1.upto(SECTION) do #section of months
+      month_counter = (month_counter ? month_counter : 0 )
+      week_counter = 0
+      1.upto(6) do #drill down into weeks of section of months
+        month_counter = section_counter * BREAK
+        #puts "section_ctr = #{section_counter}"
+        1.upto(BREAK) do
+          if (month_counter + 1) % BREAK != 0
+              puts "array[#{month_counter}][#{week_counter}]"
+              puts "#{arra[month_counter][week_counter].class}"
+             # puts "space"
+             calendar << pad_week((arra[month_counter][week_counter] ? arra[month_counter][week_counter] : " "))
+             calendar << "  "
+            else
+              #puts "array[#{month_counter}][#{week_counter}]"
+              #puts "return"
+              calendar << pad_week((arra[month_counter][week_counter] ? arra[month_counter][week_counter] : " "))
+              calendar << "\n"
+          end #outer if %3
+          month_counter +=1
+        end # upto3 loop
+        week_counter += 1
+      end #upto 6 loop
+      section_counter += 1
+      #month_counter += 1
+      #week_counter += 1
+    end # upto break do loop
+    puts calendar
+  end #def
   
   #build checker to put in padding for months that have <5 weeks
   def pad_week(week)
-    puts week
-    puts (20 - week.length).times {|i| print "w" }
-    puts week.length
+    puts "#{week}"
     row = ""
-    pad = (20 - week.length).times do
-      print " "
-    end
-    puts pad
-    row << (week.length < 20 ? week.to_s << pad : week.to_s)
-    row
+    row << ((week ? week.length : 20) < 20 ? week.ljust(20) : (week ? week.to_s : "                    "))
+  #  row << (week.length < 20 ? week.ljust(20) : "                    ")
   end
   
   #it should iterate for each month to leave no padding if it's the 3rd month
