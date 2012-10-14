@@ -31,14 +31,18 @@ class Calendar
     return myArray
   end
   
-  def printout(arra)
+  def printout
+    arra = build_year
     calendar = ""
     section_counter = 0
+    calendar << @year.to_s.center(64)
+    calendar << "\n"
     section_counter + 1.upto(SECTION) do #section of months
       month_counter = (month_counter ? month_counter : 0 )
       week_counter = 0
       1.upto(6) do #drill down into weeks of section of months
         month_counter = section_counter * BREAK
+        calendar << topper(month_counter, week_counter)
         1.upto(BREAK) do
           calendar << pad_week((arra[month_counter][week_counter] ? arra[month_counter][week_counter] : " "))
           (month_counter + 1) % BREAK != 0 ? calendar << "  " : calendar << "\n"
@@ -50,14 +54,12 @@ class Calendar
       end #upto 6 loop
       section_counter += 1
     end # upto break do loop
-    puts calendar
+    calendar
   end #def
   
   def topper(month_counter, week_counter)
     row = ""
     if week_counter == 0
-      row << @year.to_s.center(64)
-      row << "\n"
       1.upto(BREAK) do
         row << MONTH_INDEX[month_counter].center(20)
         (month_counter + 1) % BREAK != 0 ? row << "  " : row << "\n"
