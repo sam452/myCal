@@ -40,7 +40,7 @@ class Calendar
       1.upto(6) do #drill down into weeks of section of months
         month_counter = section_counter * BREAK
         1.upto(BREAK) do
-          calendar <<pad_week((arra[month_counter][week_counter] ? arra[month_counter][week_counter] : " "))
+          calendar << pad_week((arra[month_counter][week_counter] ? arra[month_counter][week_counter] : " "))
           (month_counter + 1) % BREAK != 0 ? calendar << "  " : calendar << "\n"
           if (month_counter + 1) % BREAK != 0
           end #outer if %3
@@ -53,22 +53,30 @@ class Calendar
     puts calendar
   end #def
   
-  #build checker to put in padding for months that have <5 weeks
-  def pad_week(week)
-    puts "#{week}"
+  def topper(month_counter, week_counter)
     row = ""
-    row << ((week ? week.length : 20) < 20 ? week.ljust(20) : (week ? week.to_s : "                    "))
-  #  row << (week.length < 20 ? week.ljust(20) : "                    ")
+    if week_counter == 0
+      row << @year.to_s.center(64)
+      row << "\n"
+      1.upto(BREAK) do
+        row << MONTH_INDEX[month_counter].center(20)
+        (month_counter + 1) % BREAK != 0 ? row << "  " : row << "\n"
+        month_counter += 1
+      end
+      month_counter = month_counter - BREAK
+      1.upto(BREAK) do
+        row << Month::DAY_OF_WEEK
+        (month_counter + 1) % BREAK != 0 ? row << "  " : row << "\n"
+        month_counter += 1
+      end
+    end
+    row
   end
   
-  #it should iterate for each month to leave no padding if it's the 3rd month
-  
-  #set method to turn arrays of first weeks into string
-  
-  #method to combine all together
-  
-  def week
-    
+  #build checker to put in padding for months that have <5 weeks
+  def pad_week(week)
+    row = ""
+    row << ((week ? week.length : 20) < 20 ? week.ljust(20) : (week ? week.to_s : "                    "))
   end
   
 end

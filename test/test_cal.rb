@@ -51,6 +51,23 @@ class CalendarTest < Test::Unit::TestCase
     assert_equal("                    ", c.pad_week(u[0][5]))
   end
   
+  def test_30_topper_for_first_3_months
+    c = Calendar.new(1992)
+    u = c.build_year
+    assert_equal("""                              1992                              
+      January               February               March        
+Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa
+""", c.topper(0, 0))
+  end
+  
+  def test_31_topper_for_first_3_months_2000
+    c = Calendar.new(2000)
+    u = c.build_year
+    assert_equal("""                              2000                              
+      January               February               March        
+Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa
+""", c.topper(0, 0))
+  end
   def test_50_1992_calendar
     @year = 1992
     c = Calendar.new(1992)
@@ -82,6 +99,7 @@ Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa
 26 27 28 29 30 31     23 24 25 26 27 28 29  27 28 29 30
                       30 31
       October               November              December      
+Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa
              1  2  3   1  2  3  4  5  6  7         1  2  3  4  5
  4  5  6  7  8  9 10   8  9 10 11 12 13 14   6  7  8  9 10 11 12
 11 12 13 14 15 16 17  15 16 17 18 19 20 21  13 14 15 16 17 18 19
